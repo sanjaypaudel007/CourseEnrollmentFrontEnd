@@ -4,5 +4,3 @@
 "use strict";
 
 var ceApp = angular.module("CourseEnrollment", []);
-ceApp.controller("LoginCtlr", function ($scope) {
-});
