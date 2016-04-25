@@ -3,10 +3,15 @@
  */
 "use strict";
 
-ceApp.controller("IndexController", function($scope, $sessionStorage, $location){
-    $scope.logout = function(){
+ceApp.controller("IndexController", function ($scope, $sessionStorage, $location, Auth) {
+    $scope.isAuthenticated = function () {
+        return Auth.isLoggedIn();
+    }
+    $scope.hasRole = function (role) {
+        return (Auth.hasRole() == role) ? true : false;
+    }
+    $scope.logout = function () {
         delete $sessionStorage.loggedUser;
-        //$sessionStorage.removeItem("loggedUser");
         $location.url("/login?logout=success");
     }
 });
