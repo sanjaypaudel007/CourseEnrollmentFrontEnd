@@ -26,13 +26,13 @@ ceApp.factory("Users", function ($log) {
 
     return {
         checkLogin : function(user){
+            var foundUser = null;
             angular.forEach(users, function(key, value) {
                 if(key.username  == user.username && key.password == user.password ){
-                    // $log.info(key.role);
-                    return key.role;
+                    foundUser = key;
                 }
             });
-            return false;
+            return foundUser;
         }
     };
 
