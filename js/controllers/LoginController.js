@@ -4,10 +4,13 @@
 
 "use strict";
 
-ceApp.controller("LoginCtlr", ["$scope", "Users", "$location", "$sessionStorage", function ($scope, Users, $location, $sessionStorage) {
+ceApp.controller("LoginCtlr", ["$scope", "Users", "$location", "$sessionStorage", "Auth", function ($scope, Users, $location, $sessionStorage, Auth) {
 
     init();
     function init() {
+        if (Auth.isLoggedIn()) {
+            return (Auth.hasRole() === "student") ? $location.path("/student") : $location.path("/lecturer");
+        }
         $scope.hasError = false;
         var search = $location.search();
         console.log(search.logout);

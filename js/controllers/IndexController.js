@@ -4,8 +4,14 @@
 "use strict";
 
 ceApp.controller("IndexController", function ($scope, $sessionStorage, $location, Auth) {
+    $scope.username = "";
     $scope.isAuthenticated = function () {
-        return Auth.isLoggedIn();
+        var isLoggedin = Auth.isLoggedIn();
+        if (isLoggedin) {
+            var loggedUser = $sessionStorage.loggedUser;
+            $scope.username = loggedUser.name;
+        }
+        return isLoggedin;
     }
     $scope.hasRole = function (role) {
         return (Auth.hasRole() == role) ? true : false;

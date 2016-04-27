@@ -1,0 +1,101 @@
+<div ng-controller="LecturerClassController">
+    <h2>Registered Class
+        <button type="reset" class="btn btn-sm btn-primary pull-right" ng-click="resetView()">Reset Filters</button>
+    </h2>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="ddlOrderBy" class="col-md-2 control-label">Order
+                By : </label>
+            <div class="col-md-2">
+                <select ng-model="sortOrder" class="form-control" id="ddlOrderBy" uib-tooltip="Order By">
+                    <option selected value="name">Name</option>
+                    <option value="-startDate">Start Date</option>
+                </select>
+            </div>
+            <label for="ddlShowLevel" class="col-md-2 control-label">Show :
+            </label>
+            <div class="col-md-2">
+                <select ng-model="query.level" class="form-control" id="ddlShowLevel" uib-tooltip="Filter by Class Level">
+                    <option selected value="">All</option>
+                    <option selected value="1">Beginner</option>
+                    <option selected value="2">Intermediate</option>
+                    <option selected value="3">Advanced</option>
+                </select>
+            </div>
+            <label for="ddlShowUser" class="col-md-2 control-label">Created By :
+            </label>
+            <div class="col-md-2">
+                <select ng-model="query.createdBy" class="form-control" id="ddlShowUser"
+                        ng-options="lecturer as (lecturer | ClassCreatedBy) for lecturer in lecturers" uib-tooltip="Filter by Creator">
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 pull-right">
+            <input type="text" placeholder="search here...." class="form-control" ng-model="searchText" uib-tooltip="Type here to search">
+        </div>
+    </div>
+    <table class="table table-responsive ">
+        <tr>
+            <th>#
+            </th>
+            <!--<th>Id</th>-->
+            <th ng-click="sortByColumn('name')">Name
+                <div ng-class="getCssClassFor('name')"></div>
+            </th>
+            <th ng-click="sortByColumn('createdBy')">Created By
+                <div ng-class="getCssClassFor('createdBy')"></div>
+            </th>
+            <th ng-click="sortByColumn('startDate')">Start Date
+                <div ng-class="getCssClassFor('startDate')"></div>
+            </th>
+            <th ng-click="sortByColumn('endDate')">End Date
+                <div ng-class="getCssClassFor('endDate')"></div>
+            </th>
+            <th ng-click="sortByColumn('startTime')">Start Time
+                <div ng-class="getCssClassFor('startTime')"></div>
+            </th>
+            <th ng-click="sortByColumn('duration')">Duration (Hrs)
+                <div ng-class="getCssClassFor('duration')"></div>
+            </th>
+            <th ng-click="sortByColumn('level')">Level
+                <div ng-class="getCssClassFor('level')"></div>
+            </th>
+            <th ng-click="sortByColumn('abstract')">Abstract
+                <div ng-class="getCssClassFor('abstract')"></div>
+            </th>
+            <th ng-click="sortByColumn('location')">Location
+                <div ng-class="getCssClassFor('location')"></div>
+            </th>
+            <th>Options</th>
+        </tr>
+        <!--use filteredClasses in ng-repeat for pagination to work-->
+        <tr ng-repeat="class in classes | orderBy:sortOrder | orderBy:columnToSort:reverseSort | filter:query | filter:searchText">
+            <td>{{$index + 1}}</td>
+            <!--<td>{{class.id}}</td>-->
+            <td>{{class.name}}</td>
+            <td>{{class.createdBy | ClassCreatedBy}}</td>
+            <td>{{class.startDate}}</td>
+            <td>{{class.endDate}}</td>
+            <td>{{class.startTime}}</td>
+            <td>{{class.duration}}</td>
+            <td>{{class.level | ClassLevel}}</td>
+            <td>{{class.abstract}}</td>
+            <td>{{class.location.street}}, {{class.location.city}}, {{class.location.state}}</td>
+            <td><span class="glyphicon glyphicon-edit" uib-tooltip="Edit" ng-click="editClass(class)"></span>
+                <span class="glyphicon glyphicon-remove" uib-tooltip="Delete" ng-click="deleteClass(class)"></span></td>
+        </tr>
+    </table>
+    <div class="pull-right">
+        <uib-pagination
+                total-items="classes.length"
+                items-per-page="numPerPage"
+                ng-model="currentPage"
+                max-size="maxSize"
+                class="pagination-sm"
+                boundary-links="true">
+        </uib-pagination>
+    </div>
+</div>
